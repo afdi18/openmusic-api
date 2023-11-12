@@ -3,6 +3,7 @@ const Hapi = require('@hapi/hapi');
 const albums = require('./api/albums');
 const songs = require('./api/songs');
 const AlbumsService = require('./services/inMemory/AlbumsService');
+const AlbumsValidator = require('./validator/albums');
 const SongsService = require('./services/inMemory/SongsService');
 
 const init = async () => {
@@ -16,7 +17,7 @@ const init = async () => {
   await server.register([
     {
       plugin: albums,
-      options: { service: albumsService },
+      options: { service: albumsService, validator: AlbumsValidator },
     },
     {
       plugin: songs,
