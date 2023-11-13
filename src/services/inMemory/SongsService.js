@@ -25,7 +25,21 @@ class SongsService {
     return id;
   }
 
-  getSongs() {
+  getSongs(titl, perf) {
+    if (titl != null && perf == null) {
+      const songs = this._songs.filter((s) => s.title.toLowerCase().includes(titl.toLowerCase()));
+      // console.log({ dataT: songs })
+      return songs;
+    } else if (titl == null && perf != null) {
+      const songs = this._songs.filter((s) => s.performer.toLowerCase().includes(perf.toLowerCase()));
+      // console.log({ dataP: songs })
+      return songs;
+    } else if (titl != null && perf != null) {
+      const songs = this._songs.filter((s) => s.title.toLowerCase().includes(titl.toLowerCase()));
+      songs.filter((s) => s.performer.toLowerCase().includes(perf.toLowerCase()));
+      // console.log({ dataTP: songs })
+      return songs;
+    }
     return this._songs;
   }
 
