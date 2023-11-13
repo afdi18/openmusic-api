@@ -1,8 +1,9 @@
 const ClientError = require('../../exceptions/ClientError');
 
 class AlbumsHandler {
-  constructor(service, validator) {
-    this._service = service;
+  constructor(albumservice, songservice, validator) {
+    this._albumService = albumservice;
+    this._songService = songservice;
     this._validator = validator;
 
     this.postAlbumsHandler = this.postAlbumsHandler.bind(this);
@@ -16,7 +17,7 @@ class AlbumsHandler {
     try {
       this._validator.validateAlbumPayload(request.payload);
       const { name = 'untitled', year } = request.payload;
-      const albumId = await this._service.addAlbums({ name, year });
+      const albumId = await this._albumService.addAlbums({ name, year });
       const response = h.response({
         status: 'success',
         message: 'Album berhasil ditambahkan',
@@ -47,7 +48,7 @@ class AlbumsHandler {
   }
 
   async getAlbumsHandler() {
-    const albums = await this._service.getAlbums();
+    const albums = await this._albumService.getAlbums();
     return {
       status: 'success',
       data: { albums },
@@ -57,7 +58,9 @@ class AlbumsHandler {
   async getAlbumByIdHandler(request, h) {
     try {
       const { id } = request.params;
-      const album = await this._service.getAlbumById(id);
+      const album = await this._albumService.getAlbumById(id);
+      album.songs = await this._songService.getSongByAlbumId(id);
+
       return {
         status: 'success',
         data: {
@@ -88,7 +91,7 @@ class AlbumsHandler {
     try {
       this._validator.validateAlbumPayload(request.payload);
       const { id } = request.params;
-      await this._service.editAlbumById(id, request.payload);
+      await this._albumService.editAlbumById(id, request.payload);
 
       return {
         status: 'success',
@@ -117,7 +120,7 @@ class AlbumsHandler {
   async deleteAlbumByIdHandler(request, h) {
     try {
       const { id } = request.params;
-      await this._service.deleteAlbumById(id);
+      await this._albumService.deleteAlbumById(id);
       return {
         status: 'success',
         message: 'Album berhasil dihapus',

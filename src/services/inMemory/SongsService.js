@@ -37,6 +37,14 @@ class SongsService {
     return song;
   }
 
+  getSongByAlbumId(id) {
+    const song = this._songs.filter((n) => n.albumId === id);
+    if (!song) {
+      throw new NotFoundError('Song tidak ditemukan');
+    }
+    return song;
+  }
+
   editSongById(id, {
     title, year, genre, performer, duration, albumId,
   }) {
