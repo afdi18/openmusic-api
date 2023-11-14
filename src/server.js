@@ -5,7 +5,8 @@ const songs = require("./api/songs");
 // const AlbumsService = require('./services/inMemory/AlbumsService');
 const AlbumsService = require("./services/postgres/AlbumsService");
 const AlbumsValidator = require("./validator/albums");
-const SongsService = require("./services/inMemory/SongsService");
+// const SongsService = require("./services/inMemory/SongsService");
+const SongsService = require("./services/postgres/SongsService");
 const SongsValidator = require("./validator/songs");
 
 const init = async () => {

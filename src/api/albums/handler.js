@@ -60,6 +60,7 @@ class AlbumsHandler {
       const { id } = request.params;
       const album = await this._albumService.getAlbumById(id);
       album.songs = await this._songService.getSongByAlbumId(id);
+      // const album = await this._songService.getSongByAlbumId(id);
 
       return {
         status: "success",
