@@ -1,13 +1,11 @@
+const autoBind = require("auto-bind");
+
 class SongsHandler {
   constructor(service, validator) {
     this._service = service;
     this._validator = validator;
 
-    this.postSongsHandler = this.postSongsHandler.bind(this);
-    this.getSongsHandler = this.getSongsHandler.bind(this);
-    this.getSongByIdHandler = this.getSongByIdHandler.bind(this);
-    this.putSongByIdHandler = this.putSongByIdHandler.bind(this);
-    this.deleteSongByIdHandler = this.deleteSongByIdHandler.bind(this);
+    autoBind(this);
   }
 
   async postSongsHandler(request, h) {
@@ -30,7 +28,7 @@ class SongsHandler {
     });
     const response = h.response({
       status: "success",
-      message: "Song berhasil ditambahkan",
+      message: "Lagu berhasil ditambahkan",
       data: {
         songId,
       },
@@ -66,7 +64,7 @@ class SongsHandler {
 
     return {
       status: "success",
-      message: "Song berhasil diperbarui",
+      message: "Lagu berhasil diperbarui",
     };
   }
 
@@ -75,7 +73,7 @@ class SongsHandler {
     await this._service.deleteSongById(id);
     return {
       status: "success",
-      message: "Song berhasil dihapus",
+      message: "Lagu berhasil dihapus",
     };
   }
 }
